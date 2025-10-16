@@ -1,8 +1,11 @@
+import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
   // POST 요청을 처리하는 로직
-  const { messages } = await req.json();
+  const { comment, mailList } = await req.json();
+
+  console.log(comment, mailList, 'comment, mailList');
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -16,9 +19,9 @@ export async function POST(req: Request) {
 
   const mailOption = {
     from: process.env.GOOGLE_USER,
-    to: 'viky020902@gmail.com',
+    to: mailList[0]?.mail,
     subject: '제목',
-    html: '메일 내용이여라',
+    html: `메일 내용이여라 ${comment}`,
   };
 
   const sendMail = (options: any) => {
@@ -35,7 +38,9 @@ export async function POST(req: Request) {
 
   try {
     await sendMail(mailOption);
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.log(error);
+    return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
   }
 }
