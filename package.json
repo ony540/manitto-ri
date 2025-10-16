@@ -9,17 +9,25 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@svgr/webpack": "^8.1.0",
     "@types/nodemailer": "^7.0.2",
+    "date-fns": "^4.1.0",
     "next": "15.5.4",
     "nodemailer": "^7.0.9",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-datepicker": "^8.7.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "^7.65.0",
+    "zod": "^4.1.12",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-datepicker": "^7.0.0",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
