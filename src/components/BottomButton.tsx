@@ -6,11 +6,19 @@ type Props = {
   href?: string;
   propsClass?: string;
   children: React.ReactNode;
+  disabled?: boolean;
 };
 
-const commonStyle = `flex items-center justify-center absolute left-[50%] bottom-2 w-[calc(100vw-2rem)] max-w-[381px] mb-4 h-14 rounded-2xl text-stroke text-xl font-normal translate-x-[-50%] bg-yellow-400`;
+const commonStyle = `flex items-center justify-center absolute left-[50%] bottom-2 w-[calc(100vw-2rem)] max-width-content mb-4 h-14 rounded-2xl text-stroke text-xl font-normal translate-x-[-50%] bg-yellow-400 disabled:bg-yellow-400/50 `;
 
-const BottomButton = ({ onClick, type, href, propsClass, children }: Props) => {
+export const BottomButton = ({
+  onClick,
+  type = 'button',
+  href,
+  propsClass,
+  children,
+  disabled,
+}: Props) => {
   if (href)
     return (
       <Link href={href} className={`${commonStyle} ${propsClass}`}>
@@ -19,10 +27,13 @@ const BottomButton = ({ onClick, type, href, propsClass, children }: Props) => {
     );
 
   return (
-    <button type={type || 'button'} onClick={onClick} className={`${commonStyle}  ${propsClass}`}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`${commonStyle}  ${propsClass}`}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
 };
-
-export default BottomButton;

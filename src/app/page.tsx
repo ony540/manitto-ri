@@ -1,15 +1,14 @@
-import BottomButton from '@/components/BottomButton';
-import Image from 'next/image';
+import { BottomButton } from '@/components/BottomButton';
 
 export default function Home() {
   return (
-    <div className="m-auto p-6 pb-20 ">
+    <div>
       <main className="flex flex-col  gap-[32px] items-center">
-        <h1 className="bg-[url(/bg/bg_00.svg)] w-full max-w-[381px] min-h-[500px] bg-size-[100%_100%]  bg-center bg-no-repeat text-[40px]/[100%] font-tit flex items-center justify-center">
+        <h1 className="bg-[url(/bg/bg_00.svg)] w-full max-width-content min-h-[500px] bg-size-[100%_100%]  bg-center bg-no-repeat text-[40px]/[100%] font-tit flex items-center justify-center">
           MANITTO-RRI
         </h1>
 
-        <BottomButton href="/make">START</BottomButton>
+        <BottomButton href="/create/step1">START</BottomButton>
 
         {/* <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">

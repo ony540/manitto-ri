@@ -11,7 +11,7 @@ const staatliches = Staatliches({
 const bioRhyme_Expanded = BioRhyme_Expanded({
   weight: ['800'],
   preload: false,
-  variable: '--font-sub-tit',
+  variable: '--font-subtit',
 });
 
 const lineSeed = localFont({
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${staatliches.variable} ${bioRhyme_Expanded.variable} ${lineSeed.variable} antialiased`}
+        className={`${staatliches.variable} ${bioRhyme_Expanded.variable} ${lineSeed.variable} antialiased m-auto p-6`}
       >
         {children}
       </body>
