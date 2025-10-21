@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 type Props = {
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   type?: 'submit' | 'reset' | 'button';
   href?: string;
   propsClass?: string;
@@ -9,7 +9,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const commonStyle = `flex items-center justify-center absolute left-[50%] bottom-2 w-[calc(100vw-2rem)] max-width-content mb-4 h-14 rounded-2xl text-stroke text-xl font-normal translate-x-[-50%] bg-yellow-400 disabled:bg-yellow-400/50 `;
+const commonStyle = `flex items-center justify-center absolute left-[50%] bottom-2 w-[calc(100vw-2rem)] max-width-content mb-4 h-14 rounded-2xl text-stroke text-xl font-normal translate-x-[-50%] bg-yellow-400 disabled:bg-[#FCEEB7] disabled:text-gray-500 z-100 `;
 
 export const BottomButton = ({
   onClick,
@@ -17,7 +17,7 @@ export const BottomButton = ({
   href,
   propsClass,
   children,
-  disabled,
+  disabled = false,
 }: Props) => {
   if (href)
     return (

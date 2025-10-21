@@ -7,30 +7,29 @@ import { useManittoFormStore } from '@/store/useManittoFormStore';
 import { useEffect, useState } from 'react';
 import { BottomButton } from '@/components/BottomButton';
 import { Header } from '@/components/Header';
-import Image from 'next/image';
 import { CustomDatePicker } from '@/components/CustomDatePicker/CustomDatePicker';
 import CostIcon from '@/assets/icon/cost.svg';
 import CalenderIcon from '@/assets/icon/calender.svg';
 import { format } from 'date-fns';
 
-// ✅ Zod 스키마 정의
 const step1Schema = z.object({
   name: z.string().trim().min(1, '그룹명을 입력해주세요.'),
-  budget: z.number().optional(),
+  budget: z.union([z.number(), z.string()]),
   eventDate: z.string().min(1, '날짜를 선택해주세요.'),
 });
 type Step1Schema = z.infer<typeof step1Schema>;
 
-const page = () => {
-  const router = useRouter();
-  const { name, budget, eventDate, setStep1 } = useManittoFormStore();
+const Page = () => {
+  const { push } = useRouter();
+  const { name, budget, eventDate, setStep1, reset } = useManittoFormStore();
   const [formDate, setFormDate] = useState<Date | null>(null);
 
   const {
     register,
     handleSubmit,
+    watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<Step1Schema>({
     resolver: zodResolver(step1Schema),
     defaultValues: { name, budget, eventDate },
@@ -38,17 +37,27 @@ const page = () => {
 
   // ✅ Zustand 값이 변경되면 폼에도 반영 (재진입 시)
   useEffect(() => {
-    setValue('name', name);
-    setValue('budget', budget);
-    setValue('eventDate', eventDate);
-  }, [name, budget, eventDate, setValue]);
+    if (name) setValue('name', name);
+    if (typeof budget === 'number') setValue('budget', budget);
+    if (eventDate) {
+      setValue('eventDate', eventDate);
+      setFormDate(new Date(eventDate));
+    }
+  }, [name, budget, eventDate]);
 
   const onSubmit = handleSubmit((data: Step1Schema) => {
-    setStep1(data);
-    router.push('/create/step2');
+    const parsed = {
+      ...data,
+      budget: data.budget ? Number(data.budget) : undefined,
+    };
+    setStep1(parsed);
+    push('/create/step2');
   });
 
-  const onClickBack = () => {};
+  const onClickBack = () => {
+    reset();
+    push('/');
+  };
 
   const onChangeDate = (date: Date | null) => {
     if (date) {
@@ -57,15 +66,13 @@ const page = () => {
     }
   };
 
-  // TODO: 버튼 활성화 시기 확인
-  useEffect(() => {
-    console.log(isValid);
-  }, [isValid]);
+  const watchedName = watch('name');
+  const watchedEventDate = watch('eventDate');
 
   return (
     <div className="flex flex-col items-center justify-items-center">
       <Header onClickBack={onClickBack}>01</Header>
-      <form className="w-[calc(100vw-2rem)] max-width-content ">
+      <form onSubmit={onSubmit} className="w-[calc(100vw-2rem)] max-width-content ">
         <fieldset className="bg-[url(/bg/bg_01.svg)] bg-size-[100%_100%] bg-center w-full bg-no-repeat flex flex-col items-center min-h-[500px]">
           <input
             {...register('name')}
@@ -100,7 +107,7 @@ const page = () => {
             {errors.eventDate && <p>{errors.eventDate.message}</p>}
           </div>
         </fieldset>
-        <BottomButton disabled={!isValid} onClick={onSubmit}>
+        <BottomButton type="submit" disabled={!watchedName || !watchedEventDate}>
           NEXT
         </BottomButton>
       </form>
@@ -108,4 +115,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

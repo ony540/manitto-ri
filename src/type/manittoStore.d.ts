@@ -1,16 +1,16 @@
 type ManittoPlayer = {
   name: string;
   email: string;
-  profile?: string;
+  profile: string;
 };
 type Info = {
   name: string;
-  budget?: number;
+  budget?: number | undefined;
   eventDate: string; //Date
 };
 
 type ManittoForm = Info & {
-  groupList: ManittoPlayer[];
+  playerList: ManittoPlayer[];
   comment?: string;
 };
 
@@ -19,5 +19,7 @@ type ManittoFormStore = ManittoForm & {
   addPlayer: (player: ManittoPlayer) => void;
   deletePlayer: (email: string) => void;
   setComment: (comment: string) => void;
+  resetPlayerlist: () => void;
+  deleteEmptyPlayer: () => void;
   reset: () => void;
 };
