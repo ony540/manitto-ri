@@ -71,7 +71,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center justify-items-center">
-      <Header onClickBack={onClickBack}>01</Header>
+      <Header onClickBack={onClickBack} title="01" subtitle="이벤트 만들기" />
       <form onSubmit={onSubmit} className="w-[calc(100vw-2rem)] max-width-content ">
         <fieldset className="bg-[url(/bg/bg_01.svg)] bg-size-[100%_100%] bg-center w-full bg-no-repeat flex flex-col items-center min-h-[500px]">
           <input

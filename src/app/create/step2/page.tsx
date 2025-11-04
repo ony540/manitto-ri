@@ -89,9 +89,11 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center justify-items-center">
-      <Header onClickBack={isHasEmptyPlayer ? onClickBackPlayerForm : onClickBackDefault}>
-        02
-      </Header>
+      <Header
+        onClickBack={isHasEmptyPlayer ? onClickBackPlayerForm : onClickBackDefault}
+        title="02"
+        subtitle="참가자 추가하기"
+      />
       <FormProvider {...method}>
         <form
           onSubmit={isHasEmptyPlayer ? onSubmitPlayerForm : onSubmitDefault}
@@ -101,7 +103,12 @@ const Page = () => {
           {!isHasEmptyPlayer && (
             <>
               {/* TODO: 여기 배경 맞춰서 늘리기 z-index 버튼 위로 올라오게 */}
-              <fieldset className="bg-[url(/bg/bg_02.svg)] bg-size-[100%_100%] bg-center w-full bg-no-repeat flex flex-col items-center min-h-[500px] px-[35px] py-[100px] z-0">
+              <fieldset
+                className="relative w-full before:absolute before:inset-0 before:bg-[url('/bg/bg_02_edge.svg')] before:bg-no-repeat before:bg-top before:bg-contain before:content-[''] 
+                after:absolute after:inset-0 after:bg-[url('/bg/bg_02_edge.svg')] after:bg-no-repeat after:bg-top after:rotate-180 after:bg-contain after:content-[''] after:min-h-[578px] after:z-[-1] 
+                bg-[linear-gradient(to_bottom,transparent_122px,#FFDF6D_122px,#FFDF6D_122px_calc(100%-122px),transparent_calc(100%-122px))]
+               flex flex-col items-center min-h-[572px] px-[35px] py-[100px] z-0 mb-16"
+              >
                 <ul className="grid grid-cols-2 w-full gap-[12px]">
                   {playerList?.map((player, index) => {
                     return <PlayerCard index={index} player={player} key={player.email} />;

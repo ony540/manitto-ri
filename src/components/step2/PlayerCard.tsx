@@ -42,7 +42,7 @@ const PlayerCard = ({ player, index }: Props) => {
       <button
         type="button"
         onClick={handleClickDelete}
-        className="rotate-45 absolute right-2 top-2 bg-[#EA332C] rounded-full p-0.5 "
+        className="rotate-45 absolute right-2 top-2 bg-gray-200 rounded-full p-0.5 "
       >
         <PlusIcon className=" w-[18px] h-[18px] " />
       </button>
