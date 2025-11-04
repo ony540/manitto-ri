@@ -6,7 +6,7 @@ import { useManittoFormStore } from '@/store/useManittoFormStore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const page = () => {
+const Page = () => {
   const { push } = useRouter();
   const { name, eventDate, comment, playerList, setComment } = useManittoFormStore();
   const [localComment, setLocalComment] = useState('');
@@ -63,4 +63,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import './style.css';
 import ArrowIcon from '@/assets/icon/arrow-right-nonbar.svg';
 import { ReactDatePickerCustomHeaderProps } from 'react-datepicker';
