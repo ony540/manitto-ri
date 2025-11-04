@@ -97,12 +97,11 @@ const Page = () => {
       <FormProvider {...method}>
         <form
           onSubmit={isHasEmptyPlayer ? onSubmitPlayerForm : onSubmitDefault}
-          className="w-[calc(100vw-2rem)] max-width-content "
+          className="w-[calc(100vw-2rem)] max-width-content  mb-[10px]"
         >
           {isHasEmptyPlayer && <AddPlayerForm index={emptyPlayerIndex} />}
           {!isHasEmptyPlayer && (
             <>
-              {/* TODO: 여기 배경 맞춰서 늘리기 z-index 버튼 위로 올라오게 */}
               <fieldset
                 className="relative w-full before:absolute before:inset-0 before:bg-[url('/bg/bg_02_edge.svg')] before:bg-no-repeat before:bg-top before:bg-contain before:content-[''] 
                 after:absolute after:inset-0 after:bg-[url('/bg/bg_02_edge.svg')] after:bg-no-repeat after:bg-top after:rotate-180 after:bg-contain after:content-[''] after:min-h-[578px] after:z-[-1] 

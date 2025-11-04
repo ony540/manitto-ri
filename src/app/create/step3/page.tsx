@@ -33,7 +33,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-items-center">
+    <div className="flex flex-col items-center justify-items-center  mb-[10px]">
       <Header
         onClickBack={onClickBack}
         title="03"
