@@ -31,7 +31,7 @@ export const CustomDatePicker = ({
     <div className={'Mainwrapper'}>
       <DatePicker
         locale={ko}
-        className="MainReactDatePicker"
+        className={`MainReactDatePicker ${className}`}
         inline={inline}
         onFocus={(e) => e.target.blur()}
         selected={selectedDate}

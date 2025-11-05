@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { generateManittoEmail } from '../../../../util/generateManittoEmail';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 export async function POST(req: Request) {
   // POST 요청을 처리하는 로직
-  const { comment, name, playerList, eventDate } = await req.json();
+  const { comment, name: eventName, playerList, budget, eventDate } = await req.json();
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -16,15 +19,6 @@ export async function POST(req: Request) {
   });
 
   const matched = assignManitto(playerList);
-
-  const mailOption = matched.map((item) => {
-    return {
-      from: process.env.GOOGLE_USER,
-      to: item.giver.email,
-      subject: '[MANITTO-RI] 당신의 마니또를 확인하세요 📫',
-      html: `메일 내용이여라 ${comment}`,
-    };
-  });
 
   const sendMail = (options: any) => {
     return new Promise((resolve, reject) => {
@@ -39,7 +33,26 @@ export async function POST(req: Request) {
   };
 
   try {
-    await sendMail(mailOption);
+    matched.forEach(async (item) => {
+      const html = generateManittoEmail({
+        eventName,
+        giverName: item.giver.name,
+        receiverName: item.receiver.name,
+        profileUrl: item.receiver.profile,
+        eventDate: format(eventDate, 'yyyy년 M월 d일', { locale: ko }),
+        budget,
+        comment,
+      });
+
+      const mailOption = {
+        from: process.env.GOOGLE_USER,
+        to: item.giver.email,
+        subject: '[MANITTO-RI] 당신의 마니또를 확인하세요 📫',
+        html: html,
+      };
+      await sendMail(mailOption);
+    });
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.log(error);

@@ -30,6 +30,12 @@ const Page = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, eventDate, comment, playerList }),
     });
+
+    if (res.ok) {
+      push('/create/step4');
+    } else {
+      alert('서버 오류 발생');
+    }
   };
 
   return (
