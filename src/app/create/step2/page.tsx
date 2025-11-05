@@ -68,10 +68,11 @@ const Page = () => {
   const onClickBackPlayerForm = () => {
     if (emptyPlayerIndex === 0) {
       update(0, initialPlayer);
+      push('/create/step1');
     } else {
       remove(emptyPlayerIndex);
+      deleteEmptyPlayer();
     }
-    deleteEmptyPlayer();
   };
   const onClickBackDefault = () => {
     resetPlayerlist();

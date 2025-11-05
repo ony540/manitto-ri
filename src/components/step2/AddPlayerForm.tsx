@@ -11,7 +11,7 @@ type Props = {
   index: number;
 };
 // prof개수
-const numArr = Array.from({ length: 3 }, (_, i) => `/prof${i + 1}.png`);
+const numArr = Array.from({ length: 6 }, (_, i) => `/prof${i + 1}.png`);
 
 const AddPlayerForm = ({ index }: Props) => {
   const {
