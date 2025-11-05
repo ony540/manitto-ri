@@ -5,7 +5,7 @@ import { Header } from '@/components/Header';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-export default function Home() {
+export default function Page() {
   return (
     <div>
       <main className=" flex flex-col items-center text-center ">

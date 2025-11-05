@@ -77,6 +77,7 @@ const Page = () => {
           <input
             {...register('name')}
             id="name"
+            maxLength={30}
             placeholder="이벤트 명"
             className=" focus-visible:outline-0 text-center border-b-2 max-w-[231px] font-bold  mt-12 mb-16 text-lg/[40px] "
           />

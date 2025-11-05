@@ -59,6 +59,7 @@ const Page = () => {
           onChange={handleChange}
           placeholder="추가적으로 보낼 메세지가 없다면 바로 보내도 좋아요 😊"
           className="min-w-[241px] min-h-[304px] rounded-lg p-2 resize-none focus:outline-none  bg-background"
+          maxLength={1000}
         />
       </div>
 
