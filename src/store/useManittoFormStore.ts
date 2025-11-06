@@ -4,7 +4,15 @@ export const initialPlayer = { name: '', email: '', profile: '/prof1.png' };
 const initialState: ManittoForm = {
   name: '',
   eventDate: '',
-  playerList: [initialPlayer],
+  playerList: [
+    // initialPlayer,
+    { name: '구번', email: 'hgb2652@naver.com', profile: '/prof1.png' },
+    { name: '여눤', email: 'qkr980529@naver.com', profile: '/prof2.png' },
+    { name: '선초', email: 'mo_o6m@naver.com', profile: '/prof3.png' },
+    { name: '알쥔', email: 'kongnamulp21@naver.com', profile: '/prof4.png' },
+    { name: '나영', email: 'viky0209@naver.com', profile: '/prof5.png' },
+    { name: '수번', email: 'osier17@naver.com', profile: '/prof6.png' },
+  ],
 };
 
 export const useManittoFormStore = create<ManittoFormStore>()((set) => ({

@@ -8,9 +8,10 @@ import { useEffect, useState } from 'react';
 
 const Page = () => {
   const { push } = useRouter();
-  const { name, eventDate, comment, playerList, setComment } = useManittoFormStore();
+  const { name, eventDate, comment, playerList, setComment, budget } = useManittoFormStore();
   const [localComment, setLocalComment] = useState('');
   const debounceSetComment = useDebounce(localComment, 300);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setLocalComment(e.target.value);
@@ -25,21 +26,28 @@ const Page = () => {
   };
 
   const onClickSend = async () => {
-    const res = await fetch('/api/manitto', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, eventDate, comment, playerList }),
-    });
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/manitto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, eventDate, comment, playerList, budget }),
+      });
 
-    if (res.ok) {
-      push('/create/step4');
-    } else {
-      alert('서버 오류 발생');
+      if (res.ok) {
+        push('/create/step4');
+      } else {
+        alert('서버 오류 발생');
+      }
+    } catch {
+    } finally {
+      setIsLoading(false);
     }
   };
+  // TODO: 로딩 UI
 
   return (
-    <div className="flex flex-col items-center justify-items-center  mb-[10px]">
+    <div className="flex flex-col items-center justify-items-center mb-[10px]">
       <Header
         onClickBack={onClickBack}
         title="03"
@@ -63,7 +71,7 @@ const Page = () => {
         />
       </div>
 
-      <BottomButton onClick={onClickSend} className=" fixed">
+      <BottomButton onClick={onClickSend} className=" fixed" disabled={isLoading}>
         SEND
       </BottomButton>
     </div>

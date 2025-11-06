@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 export async function POST(req: Request) {
+  // TODO: resend로 바꾸기
   // POST 요청을 처리하는 로직
   const { comment, name: eventName, playerList, budget, eventDate } = await req.json();
 
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
   };
 
   try {
-    matched.forEach(async (item) => {
+    for (const item of matched) {
       const html = generateManittoEmail({
         eventName,
         giverName: item.giver.name,
@@ -48,12 +49,13 @@ export async function POST(req: Request) {
         from: process.env.GOOGLE_USER,
         to: item.giver.email,
         subject: '[MANITTO-RI] 당신의 마니또를 확인하세요 📫',
-        html: html,
+        html,
       };
-      await sendMail(mailOption);
-    });
 
-    return NextResponse.json({ success: true });
+      await sendMail(mailOption);
+    }
+
+    return NextResponse.json({ success: true, matched, envUser: process.env.GOOGLE_USER });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
