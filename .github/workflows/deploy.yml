@@ -1,0 +1,62 @@
+name: Deploy to AWS (Next.js + CodeDeploy)
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push 되면 동작
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+  CODE_DEPLOY_APPLICATION_NAME: ${{ secrets.CODE_DEPLOY_APPLICATION_NAME }}
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: ${{ secrets.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) 코드 체크아웃
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      # 2) Node 설치
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      # 3) 의존성 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # 4) Next.js 빌드
+      - name: Build Next.js app
+        run: npm run build
+
+      # 5) 압축 생성 (.zip)
+      - name: Create zip artifact
+        run: |
+          zip -r app.zip . -x "node_modules/*"
+
+      # 6) AWS 자격 설정
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 7) S3에 업로드
+      - name: Upload to S3
+        run: |
+          aws s3 cp app.zip s3://$S3_BUCKET_NAME/app.zip
+
+      # 8) CodeDeploy 배포 트리거
+      - name: Trigger CodeDeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name $CODE_DEPLOY_APPLICATION_NAME \
+            --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME \
+            --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=app.zip \
+            --deployment-config-name CodeDeployDefault.AllAtOnce
