@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 배포 디렉토리로 이동
-cd /home/ec2-user/manitto-ri
+cd /home/ubuntu/manitto-ri
 
 # pnpm이 설치되어 있지 않으면 설치
 if ! command -v pnpm &> /dev/null; then
