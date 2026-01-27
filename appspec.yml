@@ -11,6 +11,10 @@ permissions:
     group: root
     mode: 755
 hooks:
+  BeforeInstall:
+    - location: cleanup-disk.sh # 디스크 공간 정리
+      timeout: 300
+      runas: root
   AfterInstall:
     - location: deploy.sh #ec2 다 올리고 실행할 bash script
       timeout: 500
