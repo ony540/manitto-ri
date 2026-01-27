@@ -40,7 +40,7 @@ jobs:
       - name: Build Next.js app
         run: pnpm run build
 
-      # 5) 압축 생성 (.zip)
+      # 5) 압축 생성 (.zip) - 최소한의 파일만 포함
       - name: Create zip artifact
         run: |
           zip -r app.zip . \
@@ -52,7 +52,13 @@ jobs:
             -x "*.md" \
             -x "DISK_CLEANUP.md" \
             -x "CHECK_LOGS.md" \
-            -x "VIEW_DEPLOY_LOGS.md"
+            -x "VIEW_DEPLOY_LOGS.md" \
+            -x "EMERGENCY_CLEANUP.sh" \
+            -x ".next/cache/*" \
+            -x "*.tsbuildinfo" \
+            -x ".env*" \
+            -x "*.test.*" \
+            -x "*.spec.*"
 
       # 6) AWS 자격 설정
       - name: Configure AWS credentials
