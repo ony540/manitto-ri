@@ -4,10 +4,11 @@ files:
   - source: /
     destination: /home/ubuntu/manitto-ri/ #ec2내부에 필드 폴더를 넣고 싶은 곳
     overwrite: yes
+file_exists_behavior: OVERWRITE
 permissions:
   - object: /home/ubuntu/manitto-ri/ #위랑 똑같이
-    owner: ubuntu
-    group: ubuntu
+    owner: root
+    group: root
     mode: 755
 hooks:
   AfterInstall:
