@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+// import { Resend } from 'resend';
 import { generateManittoEmail } from '../../../../util/generateManittoEmail';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Resend 사용하려면 도메인 필요
 export async function POST(req: Request) {
@@ -27,13 +27,13 @@ export async function POST(req: Request) {
           comment,
         });
 
-        return resend.emails.send({
-          from: process.env.RESEND_FROM || 'onboarding@resend.dev',
-          to: item.giver.email,
-          subject: '[MANITTO-RI] 당신의 마니또를 확인하세요 📫',
-          html,
-        });
-      })
+        // return resend.emails.send({
+        //   from: process.env.RESEND_FROM || 'onboarding@resend.dev',
+        //   to: item.giver.email,
+        //   subject: '[MANITTO-RI] 당신의 마니또를 확인하세요 📫',
+        //   html,
+        // });
+      }),
     );
 
     console.log('Resend results:', results);
