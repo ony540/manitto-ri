@@ -8,19 +8,19 @@ echo "=========================================="
 echo "현재 디스크 사용량:"
 df -h
 
-# CodeDeploy 오래된 배포 파일 정리 (최근 1개만 유지)
-echo "CodeDeploy 오래된 배포 파일 정리 중..."
+# CodeDeploy 오래된 배포 파일 정리 (모두 삭제 - DownloadBundle 전에 공간 확보)
+echo "CodeDeploy 배포 파일 정리 중..."
 if [ -d "/opt/codedeploy-agent/deployment-root" ]; then
     cd /opt/codedeploy-agent/deployment-root
-    # 배포 디렉토리 개수 확인
-    DEPLOY_COUNT=$(ls -1d */ 2>/dev/null | wc -l)
-    echo "현재 배포 디렉토리 개수: $DEPLOY_COUNT"
-    
-    if [ "$DEPLOY_COUNT" -gt 1 ]; then
-        # 오래된 배포 디렉토리 삭제 (최신 1개 제외)
-        ls -1dt */ | tail -n +2 | xargs rm -rf
-        echo "오래된 배포 디렉토리 삭제 완료"
+    # 모든 배포 디렉토리 삭제 (ongoing-deployment 제외)
+    if [ -d "ongoing-deployment" ]; then
+        # ongoing-deployment만 남기고 나머지 삭제
+        ls -1d */ 2>/dev/null | grep -v "ongoing-deployment" | xargs rm -rf 2>/dev/null || true
+    else
+        # ongoing-deployment가 없으면 모두 삭제
+        rm -rf * 2>/dev/null || true
     fi
+    echo "CodeDeploy 배포 파일 삭제 완료"
 fi
 
 # CodeDeploy 로그 파일 정리 (모든 로그 파일 삭제)
@@ -51,7 +51,10 @@ if [ -d "/home/ubuntu/manitto-ri" ]; then
     cd /home/ubuntu/manitto-ri
     # .git 삭제 (배포에 불필요)
     rm -rf .git 2>/dev/null || true
-    # 이전 node_modules는 deploy.sh에서 다시 설치되므로 여기서는 건드리지 않음
+    # node_modules 삭제 (deploy.sh에서 다시 설치됨)
+    rm -rf node_modules 2>/dev/null || true
+    # .next 빌드 파일 삭제 (새로 배포될 예정)
+    rm -rf .next 2>/dev/null || true
     echo "배포 디렉토리 정리 완료"
 fi
 

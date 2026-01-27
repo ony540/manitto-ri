@@ -18,16 +18,26 @@ if command -v pm2 &> /dev/null; then
     echo "기존 PM2 프로세스 종료 중..."
     pm2 stop manitto-ri || true
     pm2 delete manitto-ri || true
+    # PM2 프로세스 완전히 종료 대기
+    sleep 2
 fi
+
+# 기존 Next.js 프로세스 종료 (PM2 없을 때)
+pkill -f "next start" || true
+pkill -f "pnpm start" || true
+sleep 1
 
 # Next.js 앱 시작
 echo "Next.js 앱 시작 중..."
 if command -v pm2 &> /dev/null; then
     pm2 start pnpm --name "manitto-ri" -- start
     pm2 save
+    echo "PM2 프로세스 상태:"
+    pm2 list
 else
     # PM2가 없으면 nohup으로 백그라운드 실행
-    nohup pnpm start > /dev/null 2>&1 &
+    nohup pnpm start > /var/log/manitto-ri-app.log 2>&1 &
+    echo "프로세스 PID: $!"
 fi
 
 echo "배포 완료!"
