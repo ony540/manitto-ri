@@ -11,10 +11,6 @@ permissions:
     group: root
     mode: 755
 hooks:
-  ApplicationStop:
-    - location: cleanup-disk.sh # 앱 중지 전 디스크 공간 정리
-      timeout: 300
-      runas: root
   BeforeInstall:
     - location: cleanup-disk.sh # 디스크 공간 정리
       timeout: 300

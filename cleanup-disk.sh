@@ -8,27 +8,26 @@ echo "=========================================="
 echo "현재 디스크 사용량:"
 df -h
 
-# CodeDeploy 오래된 배포 파일 정리 (모두 삭제 - DownloadBundle 전에 공간 확보)
+# CodeDeploy 오래된 배포 파일 정리
 echo "CodeDeploy 배포 파일 정리 중..."
 if [ -d "/opt/codedeploy-agent/deployment-root" ]; then
     cd /opt/codedeploy-agent/deployment-root
-    # 모든 배포 디렉토리 삭제 (ongoing-deployment 제외)
-    if [ -d "ongoing-deployment" ]; then
-        # ongoing-deployment만 남기고 나머지 삭제
-        ls -1d */ 2>/dev/null | grep -v "ongoing-deployment" | xargs rm -rf 2>/dev/null || true
+    # 오래된 배포 디렉토리 삭제 (최신 1개만 유지)
+    DEPLOY_COUNT=$(ls -1d */ 2>/dev/null | wc -l)
+    if [ "$DEPLOY_COUNT" -gt 1 ]; then
+        ls -1dt */ 2>/dev/null | tail -n +2 | xargs rm -rf 2>/dev/null || true
+        echo "오래된 배포 파일 삭제 완료 (최신 1개 유지)"
     else
-        # ongoing-deployment가 없으면 모두 삭제
-        rm -rf * 2>/dev/null || true
+        echo "배포 파일이 1개만 있어 정리할 필요 없음"
     fi
-    echo "CodeDeploy 배포 파일 삭제 완료"
 fi
 
-# CodeDeploy 로그 파일 정리 (모든 로그 파일 삭제)
+# CodeDeploy 로그 파일 정리 (1일 이상 된 것만)
 echo "CodeDeploy 로그 파일 정리 중..."
 if [ -d "/opt/codedeploy-agent/deployment-root" ]; then
-    find /opt/codedeploy-agent/deployment-root -name "*.log" -delete 2>/dev/null
-    find /var/log/aws/codedeploy-agent -name "*.log.*" -delete 2>/dev/null
-    echo "로그 파일 삭제 완료"
+    find /opt/codedeploy-agent/deployment-root -name "*.log" -mtime +1 -delete 2>/dev/null
+    find /var/log/aws/codedeploy-agent -name "*.log.*" -mtime +1 -delete 2>/dev/null
+    echo "로그 파일 정리 완료"
 fi
 
 # APT 캐시 정리 (Ubuntu)
