@@ -10,7 +10,7 @@ export default function Home() {
         <h1 className="bg-[url(/bg/bg_00.svg)] w-full max-width-content min-h-[500px] bg-size-[100%_100%]  bg-center bg-no-repeat text-[40px]/[100%] font-tit flex items-center justify-center">
           MANITTO-RRI
         </h1>
-
+        cicd 확인용
         <BottomButton href="/create/step1">START</BottomButton>
       </main>
     </div>
