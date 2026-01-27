@@ -43,7 +43,16 @@ jobs:
       # 5) 압축 생성 (.zip)
       - name: Create zip artifact
         run: |
-          zip -r app.zip . -x "node_modules/*"
+          zip -r app.zip . \
+            -x "node_modules/*" \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "*.log" \
+            -x ".DS_Store" \
+            -x "*.md" \
+            -x "DISK_CLEANUP.md" \
+            -x "CHECK_LOGS.md" \
+            -x "VIEW_DEPLOY_LOGS.md"
 
       # 6) AWS 자격 설정
       - name: Configure AWS credentials
