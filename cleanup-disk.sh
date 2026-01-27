@@ -8,20 +8,6 @@ echo "=========================================="
 echo "현재 디스크 사용량:"
 df -h
 
-# CodeDeploy 오래된 배포 파일 정리
-echo "CodeDeploy 배포 파일 정리 중..."
-if [ -d "/opt/codedeploy-agent/deployment-root" ]; then
-    cd /opt/codedeploy-agent/deployment-root
-    # 오래된 배포 디렉토리 삭제 (최신 1개만 유지)
-    DEPLOY_COUNT=$(ls -1d */ 2>/dev/null | wc -l)
-    if [ "$DEPLOY_COUNT" -gt 1 ]; then
-        ls -1dt */ 2>/dev/null | tail -n +2 | xargs rm -rf 2>/dev/null || true
-        echo "오래된 배포 파일 삭제 완료 (최신 1개 유지)"
-    else
-        echo "배포 파일이 1개만 있어 정리할 필요 없음"
-    fi
-fi
-
 # CodeDeploy 로그 파일 정리 (1일 이상 된 것만)
 echo "CodeDeploy 로그 파일 정리 중..."
 if [ -d "/opt/codedeploy-agent/deployment-root" ]; then
