@@ -4,7 +4,12 @@ export const initialPlayer = { name: '', email: '', profile: '/prof1.png' };
 const initialState: ManittoForm = {
   name: '',
   eventDate: '',
-  playerList: [initialPlayer],
+  playerList: [
+    // initialPlayer,
+    { name: '나영구글', email: 'viky020902@gmail.com', profile: '/prof1.png' },
+    { name: '나영네이버', email: 'viky0209@naver.com', profile: '/prof2.png' },
+    { name: '나영', email: 'onyy540@naver.com', profile: '/prof5.png' },
+  ],
 };
 
 export const useManittoFormStore = create<ManittoFormStore>()((set) => ({

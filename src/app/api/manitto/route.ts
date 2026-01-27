@@ -5,8 +5,6 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 export async function POST(req: Request) {
-  // TODO: resend로 바꾸기
-  // POST 요청을 처리하는 로직
   const { comment, name: eventName, playerList, budget, eventDate } = await req.json();
 
   const transporter = nodemailer.createTransport({

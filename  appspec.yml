@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/meomureum-next/ #ec2내부에 필드 폴더를 넣고 싶은 곳
+    overwrite: yes
+permissions:
+  - object: /home/ec2-user/meomureum-next/ #위랑 똑같이
+    owner: root
+    group: root
+    mode: 755
+hooks:
+  AfterInstall:
+    - location: deploy.sh #ec2 다 올리고 실행할 bash script
+      timeout: 500
+      runas: root
