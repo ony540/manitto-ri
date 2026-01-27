@@ -27,6 +27,14 @@ pkill -f "next start" || true
 pkill -f "pnpm start" || true
 sleep 1
 
+# Next.js 빌드 캐시 정리 (새로운 빌드 파일 사용)
+echo "Next.js 빌드 캐시 정리 중..."
+if [ -d ".next" ]; then
+    # .next/cache만 삭제 (빌드 파일은 유지)
+    rm -rf .next/cache 2>/dev/null || true
+    echo "빌드 캐시 정리 완료"
+fi
+
 # Next.js 앱 시작
 echo "Next.js 앱 시작 중..."
 if command -v pm2 &> /dev/null; then
