@@ -6,8 +6,8 @@ files:
     overwrite: yes
 permissions:
   - object: /home/ubuntu/manitto-ri/ #위랑 똑같이
-    owner: root
-    group: root
+    owner: ubuntu
+    group: ubuntu
     mode: 755
 hooks:
   AfterInstall:
