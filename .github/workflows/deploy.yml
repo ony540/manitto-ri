@@ -49,6 +49,7 @@ jobs:
             exit 1
           fi
           
+          # zip 파일 생성 (appspec.yml은 명시적으로 제외하지 않음)
           zip -r app.zip . \
             -x "node_modules/*" \
             -x ".git/*" \
@@ -56,10 +57,6 @@ jobs:
             -x "*.log" \
             -x ".DS_Store" \
             -x "*.md" \
-            -x "DISK_CLEANUP.md" \
-            -x "CHECK_LOGS.md" \
-            -x "VIEW_DEPLOY_LOGS.md" \
-            -x "EMERGENCY_CLEANUP.sh" \
             -x ".next/cache/*" \
             -x "*.tsbuildinfo" \
             -x ".env*" \
@@ -74,7 +71,20 @@ jobs:
           fi
           
           echo "appspec.yml이 zip 파일에 포함되었습니다."
+          echo "=== appspec.yml 위치 확인 ==="
           unzip -l app.zip | grep "appspec.yml"
+          
+          # appspec.yml이 루트에 있는지 확인 (앞에 경로가 없어야 함)
+          if unzip -l app.zip | grep "appspec.yml" | grep -v "^ *[0-9]* *[0-9-]* *[0-9:]* *appspec.yml$" | grep -v "^Archive:" | grep -v "^Length" | grep -v "^-" | grep -q "/"; then
+            echo "WARNING: appspec.yml이 루트가 아닌 하위 디렉토리에 있습니다!"
+            unzip -l app.zip | grep "appspec.yml"
+          else
+            echo "✓ appspec.yml이 zip 파일 루트에 올바르게 위치합니다"
+          fi
+          
+          # zip 파일 크기 확인
+          echo "=== zip 파일 정보 ==="
+          ls -lh app.zip
 
       # 6) AWS 자격 설정
       - name: Configure AWS credentials

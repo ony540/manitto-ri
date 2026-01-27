@@ -45,17 +45,10 @@ rm -rf /tmp/* 2>/dev/null || true
 rm -rf /var/tmp/* 2>/dev/null || true
 
 # 배포 디렉토리에서 불필요한 파일 정리
-echo "배포 디렉토리 정리 중..."
-if [ -d "/home/ubuntu/manitto-ri" ]; then
-    cd /home/ubuntu/manitto-ri
-    # .git 삭제 (배포에 불필요)
-    rm -rf .git 2>/dev/null || true
-    # node_modules 삭제 (deploy.sh에서 다시 설치됨)
-    rm -rf node_modules 2>/dev/null || true
-    # .next 빌드 파일 삭제 (새로 배포될 예정)
-    rm -rf .next 2>/dev/null || true
-    echo "배포 디렉토리 정리 완료"
-fi
+# BeforeInstall 단계에서는 배포 디렉토리를 건드리지 않음
+# (Install 단계에서 파일이 배포되기 전이므로)
+# AfterInstall 이후에 정리하는 것이 안전함
+echo "배포 디렉토리 정리는 AfterInstall 이후에 수행됩니다"
 
 # Docker 정리 (사용 중인 경우)
 if command -v docker &> /dev/null; then
