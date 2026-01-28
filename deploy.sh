@@ -23,17 +23,18 @@ pkill -f "next" || true
 pkill -f "pnpm" || true
 sleep 1
 
-# 기존 빌드 완전 삭제
-echo "기존 .next 삭제 중..."
-rm -rf .next
-
-# 의존성 설치
+# 의존성 설치 (프로덕션만)
 echo "의존성 설치 중..."
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile --prod
 
-# 새로 빌드
-echo "Next.js 빌드 시작..."
-pnpm run build
+# .next 폴더가 없을 때만 빌드 (GitHub Actions에서 빌드한 것이 있으면 사용)
+if [ ! -d ".next" ]; then
+    echo "경고: .next 폴더가 없습니다. 빌드 시작..."
+    pnpm install --frozen-lockfile
+    pnpm run build
+else
+    echo ".next 폴더가 존재합니다. GitHub Actions에서 빌드한 것을 사용합니다."
+fi
 
 # 🔥 반드시 cwd 지정해서 pm2 실행
 echo "Next.js 앱 시작 중..."

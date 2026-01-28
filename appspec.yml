@@ -17,5 +17,5 @@ hooks:
       runas: root
   AfterInstall:
     - location: deploy.sh #ec2 다 올리고 실행할 bash script
-      timeout: 500
+      timeout: 900
       runas: root
