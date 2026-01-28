@@ -5,10 +5,10 @@ const initialState: ManittoForm = {
   name: '',
   eventDate: '',
   playerList: [
-    // initialPlayer,
-    { name: '나영구글', email: 'viky020902@gmail.com', profile: '/prof1.png' },
-    { name: '나영네이버', email: 'viky0209@naver.com', profile: '/prof2.png' },
-    { name: '나영', email: 'onyy540@naver.com', profile: '/prof5.png' },
+    initialPlayer,
+    // { name: '나영구글', email: 'viky020902@gmail.com', profile: '/prof1.png' },
+    // { name: '나영네이버', email: 'viky0209@naver.com', profile: '/prof2.png' },
+    // { name: '나영', email: 'onyy540@naver.com', profile: '/prof5.png' },
   ],
 };
 

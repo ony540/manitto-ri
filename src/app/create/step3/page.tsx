@@ -5,6 +5,8 @@ import useDebounce from '@/hooks/useDebounce';
 import { useManittoFormStore } from '@/store/useManittoFormStore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const Page = () => {
   const { push } = useRouter();
@@ -44,10 +46,51 @@ const Page = () => {
       setIsLoading(false);
     }
   };
-  // TODO: 로딩 UI
-
   return (
-    <div className="flex flex-col items-center justify-items-center mb-[10px]">
+    <div className="flex flex-col items-center justify-items-center mb-[10px] relative">
+      {isLoading && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="relative flex items-center justify-center">
+            <motion.div
+              initial={{ scaleX: 1, scaleY: 1, rotateY: 0 }}
+              animate={{
+                scaleX: 0.55,
+                scaleY: 0.4,
+                rotateY: 360,
+              }}
+              transition={{
+                scaleX: {
+                  duration: 0.5,
+                  ease: 'easeOut',
+                },
+                scaleY: {
+                  duration: 0.5,
+                  ease: 'easeOut',
+                },
+                rotateY: {
+                  duration: 1.8,
+                  repeat: Infinity,
+                  ease: 'linear',
+                  delay: 0.5,
+                },
+              }}
+            >
+              <Image
+                src={`/bg/bg_03.svg`}
+                width={400}
+                height={400}
+                alt={`bg`}
+                priority
+                className="object-fill"
+              />
+            </motion.div>
+            <p className="absolute text-md font-bold text-white text-center">
+              마니또를 <br />
+              찾아가는 중
+            </p>
+          </div>
+        </div>
+      )}
       <Header
         onClickBack={onClickBack}
         title="03"
@@ -68,6 +111,7 @@ const Page = () => {
           placeholder="추가적으로 보낼 메세지가 없다면 바로 보내도 좋아요 😊"
           className="min-w-[241px] min-h-[304px] rounded-lg p-2 resize-none focus:outline-none  bg-background"
           maxLength={1000}
+          disabled={isLoading}
         />
       </div>
 
